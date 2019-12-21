@@ -11,8 +11,10 @@
  
 #include <limits.h>
 
+#define MAX(a, b) ((a) > (b) ? (a) : (b))
 #define PORT 1027
 #define MAXLINE 256
+#define SA struct sockaddr 
 
 
 void error(const char *s) // Обработчик фатальных ошибок
@@ -22,7 +24,8 @@ void error(const char *s) // Обработчик фатальных ошибо�
 } 
 
 int Socket(int domain, int type, int protocol)  // Функция обертки
-	int rc;
+{
+	int rc = 0;
     
 	rc = socket(domain, type, protocol);
 	if(rc == -1) error("socket()");
@@ -149,7 +152,7 @@ void do_work(int socket)
             
     for(;;) {
         /* Инициализировать набор дескрипторов. */
-        FD_ZERO(&readfds);
+        FD_ZERO	(&readfds);
         FD_SET(STDIN_FILENO, &readfds);
         FD_SET(socket, &readfds);
  
